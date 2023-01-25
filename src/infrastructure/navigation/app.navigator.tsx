@@ -1,8 +1,11 @@
+import { StyleSheet } from 'react-native'
 import { Text, View } from 'native-base'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { BlurView } from 'expo-blur'
+
 import Ionicons from '@expo/vector-icons/Ionicons'
 
-import HomeScreen from '../../features/home/screens/home.screen'
+import ExercisesNavigator from './exercices.navigator'
 
 function SettingsScreen() {
   return (
@@ -20,9 +23,9 @@ const AppNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          flex: 0.08,
+          flex: 0.1,
           backgroundColor: '#171717',
-          paddingBottom: 10,
+          paddingBottom: 15,
         },
         tabBarLabelStyle: {
           color: '#FFFFFF',
@@ -33,7 +36,7 @@ const AppNavigator = () => {
     >
       <Tab.Screen
         name='Home'
-        component={HomeScreen}
+        component={ExercisesNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <Ionicons name={'fitness'} size={32} color={'#FFFFFF'} />
