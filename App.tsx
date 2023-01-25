@@ -3,13 +3,13 @@ import { NativeBaseProvider } from 'native-base'
 
 import { SafeAreaContainer } from './src/components/utility/safe-area.component'
 
-import HomeScreen from './src/features/home/screens/home.screen'
+import Navigator from './src/infrastructure/navigation'
 
 export default function App() {
   return (
     <NativeBaseProvider>
       <SafeAreaContainer>
-        <HomeScreen />
+        <Navigator />
       </SafeAreaContainer>
     </NativeBaseProvider>
   )
