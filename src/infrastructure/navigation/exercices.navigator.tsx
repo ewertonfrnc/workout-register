@@ -4,12 +4,14 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack'
 
-import HomeScreen, { DataArr } from '../../features/home/screens/home.screen'
+import HomeScreen, {
+  Exercise,
+} from '../../features/home/screens/home.screen'
 import ExerciseDetailScreen from '../../features/home/screens/exercise-detail.screen'
 
 export type RootStackParamList = {
   Home: undefined
-  ExerciseDetails: { exercise: DataArr }
+  ExerciseDetails: { exercise: Exercise }
 }
 
 const RootStack = createStackNavigator<RootStackParamList>()

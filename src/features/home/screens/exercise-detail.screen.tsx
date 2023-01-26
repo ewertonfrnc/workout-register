@@ -14,7 +14,7 @@ const ExerciseDetailScreen: FC<ExerciseDetailScreeProps> = ({ route }) => {
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>{exercise.exerciseObj.name}</Text>
+      <Text>{exercise.name}</Text>
     </View>
   )
 }

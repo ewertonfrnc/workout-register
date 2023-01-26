@@ -1,6 +1,6 @@
 import { FC } from 'react'
 import { TouchableOpacity } from 'react-native'
-import { FlatList, Box, View } from 'native-base'
+import { Heading, Box, ScrollView, HStack } from 'native-base'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 
 import { HomeContainer } from '../../../components/utility/safe-area.component'
@@ -9,6 +9,7 @@ import ExerciseCard from '../components/exercise-card/exercise-card.component'
 import Header from '../components/header/header.component'
 
 import { RootStackParamList } from '../../../infrastructure/navigation/exercices.navigator'
+import ExerciseList from '../components/exercise-list/exercise-list.component'
 
 export type HomeScreenProps = BottomTabScreenProps<RootStackParamList, 'Home'>
 
@@ -17,116 +18,169 @@ export type Exercise = {
   imgUrl: string
 }
 
-export type DataArr = {
-  id: number
-  exerciseObj: Exercise
+export type MuscleGroup = {
+  group: string
+  exercises: Exercise[]
 }
 
-const data: DataArr[] = [
+export type ExercisesArr = {
+  id: number
+  muscleGroup: MuscleGroup
+}
+
+const exercisesArr: ExercisesArr[] = [
   {
     id: 1,
-    exerciseObj: {
-      name: 'Afundo',
-      imgUrl:
-        'https://conteudo.imguol.com.br/c/entretenimento/8a/2019/04/22/afundo-1555955867882_v2_1x1.jpg',
+    muscleGroup: {
+      group: 'Quadríceps',
+      exercises: [
+        {
+          name: 'Afundo',
+          imgUrl:
+            'https://conteudo.imguol.com.br/c/entretenimento/8a/2019/04/22/afundo-1555955867882_v2_1x1.jpg',
+        },
+        {
+          name: 'Agachamento Terra',
+          imgUrl:
+            'https://www.espaco360med.com.br/images/blog/main/large/10-fatos-que-farao-voce-incluir-o-levantamento-terra-no-seu-treino-.jpg',
+        },
+        {
+          name: 'Agachamento Sumô',
+          imgUrl:
+            'https://www.mundoboaforma.com.br/wp-content/uploads/2022/06/agachamento-sumo.jpg',
+        },
+        {
+          name: 'Subida no banco',
+          imgUrl:
+            'https://www.muscleandfitness.com/wp-content/uploads/2019/11/Female-Working-Out-her-Legs-By-Doing-Weighted-Step-up-Exercise.jpg?quality=86&strip=all',
+        },
+      ],
     },
   },
   {
     id: 2,
-    exerciseObj: {
-      name: 'Avanço',
-      imgUrl:
-        'https://static.vixbrasiltv.com/pt/sites/default/files/e/exercicio-afundo-avanco-1116-1400x800.jpg',
+    muscleGroup: {
+      group: 'Posterior da coxa',
+      exercises: [
+        {
+          name: 'Elevação pélvica',
+          imgUrl:
+            'https://generationiron.com/brasil/wp-content/uploads/sites/3/2021/02/3-1-1068x566.jpg',
+        },
+        {
+          name: 'Stiff',
+          imgUrl:
+            'https://s.zst.com.br/cms-assets/2022/05/stiff-como-fazer.webp',
+        },
+      ],
     },
   },
   {
     id: 3,
-    exerciseObj: {
-      name: 'Supino Reto',
-      imgUrl:
-        'https://www.smartfit.com.br/news/wp-content/uploads/2016/06/supino-reto.jpg',
+    muscleGroup: {
+      group: 'Panturrilha',
+      exercises: [
+        {
+          name: 'Elevação pélvica',
+          imgUrl:
+            'https://generationiron.com/brasil/wp-content/uploads/sites/3/2021/02/3-1-1068x566.jpg',
+        },
+      ],
     },
   },
   {
     id: 4,
-    exerciseObj: {
-      name: 'Burpee',
-      imgUrl:
-        'https://static.wixstatic.com/media/6fd9dd_9cf5ffc0052e462d81d0c9c415d7d086~mv2.jpg/v1/fit/w_1000%2Ch_1000%2Cal_c%2Cq_80/file.jpg',
+    muscleGroup: {
+      group: 'Peitoral',
+      exercises: [
+        {
+          name: 'Supino Reto',
+          imgUrl:
+            'https://www.smartfit.com.br/news/wp-content/uploads/2016/06/supino-reto.jpg',
+        },
+        {
+          name: 'Crucifixo inclinado',
+          imgUrl:
+            'http://conteudo.imguol.com.br/c/entretenimento/88/2019/09/09/crucifixo-musculacao-exercicio-academia-1568071568051_v2_1254x836.jpg',
+        },
+      ],
     },
   },
   {
     id: 5,
-    exerciseObj: {
-      name: 'Remada curvada',
-      imgUrl:
-        'https://cdn.fisiculturismo.com.br/monthly_2021_03/remada-curvada-supinada-intermediaria.jpg.ce9f4df94ef51ad5d2607c7ff617cc65.jpg',
+    muscleGroup: {
+      group: 'Dorsal',
+      exercises: [
+        {
+          name: 'Remada no TRX',
+          imgUrl:
+            'https://nutri360.com.br/wp-content/uploads/2022/11/Desenvolvimento-com-halteres-em-sentado-1200x600.jpg',
+        },
+        {
+          name: 'Barra fixa',
+          imgUrl:
+            'https://www.oxygenmag.com/wp-content/uploads/2020/11/Pull-Up-Promo-Image-Wide-1024x576.jpg?width=1200',
+        },
+      ],
     },
   },
   {
     id: 6,
-    exerciseObj: {
-      name: 'Remada Cavalinho',
-      imgUrl: 'https://i.ytimg.com/vi/TRqQamJvKY8/maxresdefault.jpg',
+    muscleGroup: {
+      group: 'Deltoides',
+      exercises: [
+        {
+          name: 'Desenvolvimento',
+          imgUrl:
+            'https://nutri360.com.br/wp-content/uploads/2022/11/Desenvolvimento-com-halteres-em-sentado-1200x600.jpg',
+        },
+        {
+          name: 'Elevação lateral com halteres',
+          imgUrl:
+            'https://vitat.com.br/wp-content/uploads/2022/05/beautiful-athletic-girl-dressed.jpg',
+        },
+      ],
     },
   },
   {
     id: 7,
-    exerciseObj: {
-      name: 'Desenvolvimento',
-      imgUrl:
-        'http://conteudo.imguol.com.br/c/entretenimento/f4/2019/04/17/desenvolvimento-de-ombros-1555532079293_v2_1254x836.jpg',
+    muscleGroup: {
+      group: 'Bíceps',
+      exercises: [
+        {
+          name: 'Rosca direta',
+          imgUrl:
+            'http://conteudo.imguol.com.br/c/entretenimento/19/2019/03/07/rosca-direta-1551966289593_v2_1254x836.jpg',
+        },
+      ],
     },
   },
   {
     id: 8,
-    exerciseObj: {
-      name: 'Agachamento Terra',
-      imgUrl:
-        'https://www.espaco360med.com.br/images/blog/main/large/10-fatos-que-farao-voce-incluir-o-levantamento-terra-no-seu-treino-.jpg',
-    },
-  },
-  {
-    id: 9,
-    exerciseObj: {
-      name: 'Agachamento Sumô',
-      imgUrl:
-        'https://www.mundoboaforma.com.br/wp-content/uploads/2022/06/agachamento-sumo.jpg',
-    },
-  },
-  {
-    id: 10,
-    exerciseObj: {
-      name: 'Stiff',
-      imgUrl: 'https://s.zst.com.br/cms-assets/2022/05/stiff-como-fazer.webp',
+    muscleGroup: {
+      group: 'Tríceps',
+      exercises: [
+        {
+          name: 'Tríceps no banco',
+          imgUrl:
+            'http://conteudo.imguol.com.br/c/entretenimento/3d/2019/07/30/triceps-banco-1564513589405_v2_1254x836.jpg',
+        },
+      ],
     },
   },
 ]
 
 const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
+  const openExerciseDetailScreen = (exercise: Exercise): void =>
+    navigation.navigate('ExerciseDetails', { exercise })
+
   return (
     <HomeContainer>
       <Header />
-
-      <View>
-        <Box>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() =>
-                  navigation.navigate('ExerciseDetails', {
-                    exercise: item,
-                  })
-                }
-              >
-                <ExerciseCard key={item.id} exercises={item.exerciseObj} />
-              </TouchableOpacity>
-            )}
-          />
-        </Box>
-      </View>
+      <ExerciseList
+        exercises={exercisesArr}
+        handleNavigation={openExerciseDetailScreen}
+      />
     </HomeContainer>
   )
 }
