@@ -1,7 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { Text, View } from 'native-base'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { BlurView } from 'expo-blur'
 
 import Ionicons from '@expo/vector-icons/Ionicons'
 

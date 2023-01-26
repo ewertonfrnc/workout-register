@@ -1,11 +1,7 @@
 import { FC } from 'react'
-import { TouchableOpacity } from 'react-native'
-import { Heading, Box, ScrollView, HStack } from 'native-base'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
 
 import { HomeContainer } from '../../../components/utility/safe-area.component'
-
-import ExerciseCard from '../components/exercise-card/exercise-card.component'
 import Header from '../components/header/header.component'
 
 import { RootStackParamList } from '../../../infrastructure/navigation/exercices.navigator'
