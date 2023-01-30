@@ -34,9 +34,15 @@ const ExerciseList: FC<ExerciseListProps> = ({
                     activeOpacity={0.5}
                     onPress={() => handleNavigation(exercise)}
                   >
-                    <>
+                    <Box
+                      rounded='lg'
+                      overflow='hidden'
+                      marginBottom={4}
+                      bg='cyan.100'
+                      size={150}
+                    >
                       <ExerciseCard key={exercise.name} exercise={exercise} />
-                    </>
+                    </Box>
                   </TouchableOpacity>
                 ))}
               </HStack>

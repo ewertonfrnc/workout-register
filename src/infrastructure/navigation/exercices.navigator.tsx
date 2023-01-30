@@ -4,9 +4,7 @@ import {
   StackNavigationOptions,
 } from '@react-navigation/stack'
 
-import HomeScreen, {
-  Exercise,
-} from '../../features/home/screens/home.screen'
+import HomeScreen, { Exercise } from '../../features/home/screens/home.screen'
 import ExerciseDetailScreen from '../../features/home/screens/exercise-detail.screen'
 
 export type RootStackParamList = {
@@ -18,7 +16,7 @@ const RootStack = createStackNavigator<RootStackParamList>()
 
 const options: StackNavigationOptions = {
   headerShown: false,
-  ...TransitionPresets.ModalPresentationIOS,
+  ...TransitionPresets.SlideFromRightIOS,
 }
 
 const ExercisesNavigator = () => {

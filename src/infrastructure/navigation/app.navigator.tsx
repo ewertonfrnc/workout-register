@@ -22,9 +22,9 @@ const AppNavigator = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          flex: 0.1,
+          flex: 0.08,
           backgroundColor: '#171717',
-          paddingBottom: 15,
+          paddingBottom: 10,
         },
         tabBarLabelStyle: {
           color: '#FFFFFF',
