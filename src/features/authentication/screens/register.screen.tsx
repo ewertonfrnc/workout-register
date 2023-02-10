@@ -4,6 +4,7 @@ import { AuthError, AuthErrorCodes } from "firebase/auth";
 import {
   createAuthUserWithEmailAndPassword,
   createUserDocumentFromAuth,
+  updateUserProfile,
 } from "../../../utils/firebase/firebase.utils";
 
 import {
@@ -57,6 +58,8 @@ const Register: FC<RegisterScreenProps> = ({ navigation }) => {
       );
 
       await createUserDocumentFromAuth(user, { displayName });
+      await updateUserProfile(user, displayName);
+      
       resetFormFields();
       navigation.navigate("Login");
     } catch (error) {

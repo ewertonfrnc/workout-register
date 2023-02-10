@@ -1,5 +1,4 @@
-import { FC, useState, useContext } from "react";
-import { UserContext } from "../../../contexts/user.context";
+import { FC, useState } from "react";
 
 import {
   Box,
@@ -23,8 +22,6 @@ import { RootStackParamList } from "../../../infrastructure/navigation/authentic
 export type LoginScreenProps = BottomTabScreenProps<RootStackParamList>;
 
 const Login: FC<LoginScreenProps> = ({ navigation }) => {
-  const { setCurrentUser } = useContext(UserContext);
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -37,13 +34,8 @@ const Login: FC<LoginScreenProps> = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const { user } = await signInAuthUserWithEmailAndPassword(
-        email,
-        password
-      );
+      await signInAuthUserWithEmailAndPassword(email, password);
       resetFormFields();
-
-      setCurrentUser(user);
     } catch (error) {
       console.log(error);
     }

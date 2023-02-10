@@ -8,6 +8,8 @@ import {
   onAuthStateChanged,
   User,
   UserCredential,
+  NextOrObserver,
+  updateProfile,
 } from "firebase/auth";
 import {
   getFirestore,
@@ -92,4 +94,11 @@ export const createUserDocumentFromAuth = async (
   return userSnapshot as QueryDocumentSnapshot<UserData>;
 };
 
+export const updateUserProfile = async (user: User, displayName: string) => {
+  await updateProfile(user, { displayName });
+};
+
 export const signOutUser = async () => await signOut(auth);
+
+export const onAuthStateChangedListener = (callback: NextOrObserver<User>) =>
+  onAuthStateChanged(auth, callback);

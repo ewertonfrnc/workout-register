@@ -1,20 +1,15 @@
-import { useContext } from "react";
 import { Text, View, Button } from "native-base";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { signOutUser } from "../../utils/firebase/firebase.utils";
-import { UserContext } from "../../contexts/user.context";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
 
 import ExercisesNavigator from "./exercices.navigator";
 
 function SettingsScreen() {
-  const { setCurrentUser } = useContext(UserContext);
-
   const signOutHandler = async () => {
     await signOutUser();
-    setCurrentUser(null);
   };
 
   return (
