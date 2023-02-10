@@ -1,9 +1,9 @@
-import React from 'react'
-import { NativeBaseProvider } from 'native-base'
+import React from "react";
+import { NativeBaseProvider } from "native-base";
 
-import { SafeAreaContainer } from './src/components/utility/safe-area.component'
+import { SafeAreaContainer } from "./src/components/utility/safe-area.component";
 
-import Navigator from './src/infrastructure/navigation'
+import Navigator from "./src/infrastructure/navigation";
 
 export default function App() {
   return (
@@ -12,5 +12,5 @@ export default function App() {
         <Navigator />
       </SafeAreaContainer>
     </NativeBaseProvider>
-  )
+  );
 }

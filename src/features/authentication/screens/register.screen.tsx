@@ -1,7 +1,10 @@
-import { FC, useState } from 'react'
+import { FC, useState } from "react";
 
-import { AuthError, AuthErrorCodes } from 'firebase/auth'
-import { createAuthUserWithEmailAndPassword } from '../../../utils/firebase/firebase.utils'
+import { AuthError, AuthErrorCodes } from "firebase/auth";
+import {
+  createAuthUserWithEmailAndPassword,
+  createUserDocumentFromAuth,
+} from "../../../utils/firebase/firebase.utils";
 
 import {
   Box,
@@ -12,67 +15,98 @@ import {
   VStack,
   FormControl,
   Input,
-} from 'native-base'
+} from "native-base";
 
-import { RootStackParamList } from '../../../infrastructure/navigation/authentication.navigator'
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import { RootStackParamList } from "../../../infrastructure/navigation/authentication.navigator";
+import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
-export type RegisterScreenProps = BottomTabScreenProps<RootStackParamList>
+export type RegisterScreenProps = BottomTabScreenProps<RootStackParamList>;
 
 const Register: FC<RegisterScreenProps> = ({ navigation }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState({ isError: false, errorMessage: '' })
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState({ isError: false, errorMessage: "" });
+
+  const resetFormFields = () => {
+    setDisplayName("");
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setError({ isError: false, errorMessage: "" });
+  };
 
   const handleRegistration = async () => {
     if (password !== confirmPassword)
       return setError({
         isError: true,
-        errorMessage: 'As senhas não são iguais.',
-      })
+        errorMessage: "As senhas não são iguais.",
+      });
 
     if (password.length < 6)
       return setError({
         isError: true,
-        errorMessage: 'A senha deve conter pelo menos 6 caracteres.',
-      })
+        errorMessage: "A senha deve conter pelo menos 6 caracteres.",
+      });
 
     try {
-      const userCredential = await createAuthUserWithEmailAndPassword(
+      const { user } = await createAuthUserWithEmailAndPassword(
         email,
         password
-      )
-      console.log(userCredential)
+      );
+
+      await createUserDocumentFromAuth(user, { displayName });
+      resetFormFields();
+      navigation.navigate("Login");
     } catch (error) {
       if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS) {
         setError({
           isError: true,
-          errorMessage: 'Este email já está sendo usado.',
-        })
+          errorMessage: "Este email já está sendo usado.",
+        });
       } else {
-        console.error('Erro ao criar usuário', error)
+        console.error("Erro ao criar usuário", error);
       }
     }
-  }
+  };
 
   return (
-    <Center w='100%' h='100%' bg='muted.900'>
+    <Center w="100%" h="100%" bg="muted.900">
       <Image
-        source={require('../../../../assets/logo.png')}
-        size='xl'
-        alt='Logo da Garagem Ray Fitness'
+        source={require("../../../../assets/logo.png")}
+        size="xl"
+        alt="Logo da Garagem Ray Fitness"
       />
 
-      <Box safeArea w='90%' maxW='290'>
-        <Heading size='lg' fontWeight='600' color='light.50'>
+      <Box safeArea w="90%" maxW="290">
+        <Heading size="lg" fontWeight="600" color="light.50">
           Vamos começar
         </Heading>
-        <Heading mt='1' color='coolGray.400' fontWeight='medium' size='xs'>
-          Entre para continuar
+        <Heading mt="1" color="coolGray.400" fontWeight="medium" size="xs">
+          Crie sua conta para continuar
         </Heading>
 
-        <VStack space={3} mt='5'>
+        <VStack space={3} mt="5">
+          <FormControl isRequired isInvalid={error.isError}>
+            <FormControl.Label
+              _text={{
+                bold: true,
+              }}
+            >
+              Nome
+            </FormControl.Label>
+
+            <Input
+              w="100%"
+              type="text"
+              color="muted.100"
+              textContentType="name"
+              value={displayName}
+              onChangeText={(text) => setDisplayName(text)}
+            />
+          </FormControl>
+
           <FormControl isRequired isInvalid={error.isError}>
             <FormControl.Label
               _text={{
@@ -83,11 +117,12 @@ const Register: FC<RegisterScreenProps> = ({ navigation }) => {
             </FormControl.Label>
 
             <Input
-              w='100%'
-              type='text'
-              color='muted.100'
-              keyboardType='email-address'
-              textContentType='emailAddress'
+              w="100%"
+              type="text"
+              color="muted.100"
+              keyboardType="email-address"
+              textContentType="emailAddress"
+              autoCapitalize="none"
               value={email}
               onChangeText={(text) => setEmail(text)}
             />
@@ -96,13 +131,13 @@ const Register: FC<RegisterScreenProps> = ({ navigation }) => {
           <FormControl isRequired isInvalid={error.isError}>
             <FormControl.Label>Senha</FormControl.Label>
             <Input
-              w='100%'
-              type='password'
-              color='muted.100'
+              w="100%"
+              type="password"
+              color="muted.100"
               value={password}
-              textContentType='password'
+              textContentType="password"
               secureTextEntry
-              autoCapitalize='none'
+              autoCapitalize="none"
               onChangeText={(p) => setPassword(p)}
             />
 
@@ -120,13 +155,13 @@ const Register: FC<RegisterScreenProps> = ({ navigation }) => {
           <FormControl isRequired isInvalid={error.isError}>
             <FormControl.Label>Confirmar Senha</FormControl.Label>
             <Input
-              w='100%'
-              type='password'
-              color='muted.100'
+              w="100%"
+              type="password"
+              color="muted.100"
               value={confirmPassword}
-              textContentType='password'
+              textContentType="password"
               secureTextEntry
-              autoCapitalize='none'
+              autoCapitalize="none"
               onChangeText={(p) => setConfirmPassword(p)}
             />
 
@@ -141,13 +176,13 @@ const Register: FC<RegisterScreenProps> = ({ navigation }) => {
             )}
           </FormControl>
 
-          <Button mt='2' colorScheme='indigo' onPress={handleRegistration}>
+          <Button mt="2" colorScheme="indigo" onPress={handleRegistration}>
             Criar conta
           </Button>
         </VStack>
       </Box>
     </Center>
-  )
-}
+  );
+};
 
-export default Register
+export default Register;

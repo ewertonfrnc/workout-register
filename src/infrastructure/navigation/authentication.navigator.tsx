@@ -19,8 +19,6 @@ const options: StackNavigationOptions = {
   ...TransitionPresets.SlideFromRightIOS,
 }
 
-import React from 'react'
-
 const AccountNavigator = () => {
   return (
     <RootStack.Navigator screenOptions={options}>
