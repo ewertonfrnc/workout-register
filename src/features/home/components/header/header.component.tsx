@@ -4,7 +4,6 @@ import { HStack, Avatar, Box, Text } from "native-base";
 
 const Header = () => {
   const { currentUser } = useContext(UserContext);
-  console.log(currentUser);
 
   return (
     <HStack space={4} mb={8}>

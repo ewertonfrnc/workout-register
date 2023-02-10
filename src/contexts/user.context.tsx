@@ -20,7 +20,7 @@ export const UserContext = createContext<UserContext>({
 });
 
 export const UserProvider: FC<UserProviderProps> = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const value = { currentUser, setCurrentUser };
 
   useEffect(() => {
