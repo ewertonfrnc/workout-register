@@ -1,4 +1,6 @@
-import { FC, useState, ChangeEvent } from "react";
+import { FC, useState, useContext } from "react";
+import { UserContext } from "../../../contexts/user.context";
+
 import {
   Box,
   Text,
@@ -13,13 +15,39 @@ import {
   Link,
 } from "native-base";
 
+import { signInAuthUserWithEmailAndPassword } from "../../../utils/firebase/firebase.utils";
+
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 import { RootStackParamList } from "../../../infrastructure/navigation/authentication.navigator";
 
 export type LoginScreenProps = BottomTabScreenProps<RootStackParamList>;
 
 const Login: FC<LoginScreenProps> = ({ navigation }) => {
+  const { setCurrentUser } = useContext(UserContext);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const resetFormFields = () => {
+    setEmail("");
+    setPassword("");
+  };
+
   const handleNavigation = () => navigation.navigate("Register");
+
+  const handleLogin = async () => {
+    try {
+      const { user } = await signInAuthUserWithEmailAndPassword(
+        email,
+        password
+      );
+      resetFormFields();
+
+      setCurrentUser(user);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Center w="100%" h="100%" bg="muted.900">
@@ -42,20 +70,28 @@ const Login: FC<LoginScreenProps> = ({ navigation }) => {
             <FormControl.Label>E-mail</FormControl.Label>
             <Input
               type="text"
+              value={email}
               w="100%"
               color="muted.100"
               autoComplete="email"
               autoCapitalize="none"
               keyboardType="email-address"
+              onChangeText={(text) => setEmail(text)}
             />
           </FormControl>
 
           <FormControl>
             <FormControl.Label>Senha</FormControl.Label>
-            <Input type="password" w="100%" color="muted.100" />
+            <Input
+              type="password"
+              w="100%"
+              color="muted.100"
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
           </FormControl>
 
-          <Button mt="2" colorScheme="indigo">
+          <Button onPress={handleLogin} mt="2" colorScheme="indigo">
             Entrar
           </Button>
 

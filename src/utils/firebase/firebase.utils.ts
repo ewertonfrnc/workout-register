@@ -2,15 +2,11 @@
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
-  signInWithRedirect,
-  signInWithPopup,
-  GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
   User,
-  NextOrObserver,
   UserCredential,
 } from "firebase/auth";
 import {
@@ -18,10 +14,6 @@ import {
   doc,
   getDoc,
   setDoc,
-  collection,
-  writeBatch,
-  query,
-  getDocs,
   QueryDocumentSnapshot,
 } from "firebase/firestore";
 // Your web app's Firebase configuration
@@ -99,3 +91,5 @@ export const createUserDocumentFromAuth = async (
 
   return userSnapshot as QueryDocumentSnapshot<UserData>;
 };
+
+export const signOutUser = async () => await signOut(auth);
